@@ -1,0 +1,59 @@
+spring:
+  profiles:
+    #名称和pom文件定义的标签一致;主要利用了maven打包时，拦截配置文件使用pom文件中的值替换掉spring.profiles.active=@activatedProperties@中的变量，完成动态配置文件的使用功能。
+    active: @activatedProperties@
+  #出现错误时, 直接抛出异常(便于异常统一处理，否则捕获不到404,和add-mappings: false配合使用)
+  mvc:
+    throw-exception-if-no-handler-found: true
+  #不要为我们工程中的资源文件建立映射
+  resources:
+    add-mappings: false
+
+#mybatis plus
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.jonlin.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 0
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    #序列接口实现类配置
+    #key-generator: com.baomidou.springboot.xxx
+    #逻辑删除配置
+    logic-delete-value: -1
+    logic-not-delete-value: 0
+    #自定义填充策略接口实现
+    #meta-object-handler: com.baomidou.springboot.xxx
+    #自定义SQL注入器
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+
+# fastdfs 文件上传
+file_server_addr: 192.168.199.127:8090
+max_storage_connection: 80
+fastdfs:
+  connect_timeout_in_seconds: 10
+  network_timeout_in_seconds: 30
+  charset: UTF8
+  http_anti_steal_token: true
+  http_secret_key: HandFastDFSToken
+  http_tracker_http_port: 80
+  tracker_servers: 22122
+
+
+## 该配置节点为独立的节点，有很多同学容易将这个配置放在spring的节点下，导致配置无法被识别
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+#  type-aliases-package: com.jonlin.model  # 注意：对应实体类的路径
+

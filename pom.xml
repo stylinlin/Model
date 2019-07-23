@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jonlin</groupId>
+    <artifactId>dubbo</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.3.RELEASE</version>
+    </parent>
+
+    <name>dubbo</name>
+
+    <modules>
+        <module>model</module>
+        <module>service</module>
+        <module>api</module>
+        <module>dao</module>
+        <module>common</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <junit.version>4.12</junit.version>
+        <jedis.version>2.9.0</jedis.version>
+        <druid.version>1.1.10</druid.version>
+        <mybatisplus.version>2.1.9</mybatisplus.version>
+        <mybatisplus.spring.boot.version>1.0.5</mybatisplus.spring.boot.version>
+        <mysql.version>5.1.38</mysql.version>
+        <mssql.version>4.0</mssql.version>
+        <oracle.version>11.2.0.3</oracle.version>
+        <commons.lang.version>2.6</commons.lang.version>
+        <commons.fileupload.version>1.3.1</commons.fileupload.version>
+        <commons.io.version>2.5</commons.io.version>
+        <commons.codec.version>1.10</commons.codec.version>
+        <fastjson.version>1.2.45</fastjson.version>
+        <joda.time.version>2.9.9</joda.time.version>
+        <dozer.version>5.5.1</dozer.version>
+        <commons-configuration>1.8</commons-configuration>
+        <fastdfs-client.version>1.27.0.0</fastdfs-client.version>
+        <org.mapstruct.version>1.2.0.CR1</org.mapstruct.version>
+
+    </properties>
+
+    <dependencies>
+        <!-- spring web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 服务器端 Java 模板引擎，能够处理HTML，XML，JavaScript，CSS 甚至纯文本。 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- spring redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>2.0.2.RELEASE</version>
+        </dependency>
+
+        <!-- mybatis plus spring -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>${mybatisplus.version}</version>
+        </dependency>
+        <!-- mybatisplus 持久层工具 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatisplus-spring-boot-starter</artifactId>
+            <version>${mybatisplus.spring.boot.version}</version>
+        </dependency>
+        <!-- freemarker 模板引擎 HTML页面 -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <!--fastdfs-client start 文件服务器工具-->
+        <dependency>
+            <groupId>net.oschina.zcx7878</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.27.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+        </dependency>
+        <!--fastdfs-client end-->
+
+        <!-- poi start excel操作-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.16</version>
+        </dependency>
+        <!--poi end-->
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+        </dependency>
+
+        <!-- 工具类 -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons.lang.version}</version>
+        </dependency>
+
+        <!-- 操作文件上传的小助手，里面封装了对流操作的全过程 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons.fileupload.version}</version>
+        </dependency>
+
+        <!-- IO操作 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+
+        <!-- 对象池，文件上传处使用 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+
+        <!-- 运算、编码解码的包,Base64、MD5、Hex、SHA1、DES等。 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.codec.version}</version>
+        </dependency>
+
+        <!-- 很方便的访问配置文件和xml文件中的的内容。Commons Configuration
+            是为了提供对属性文件、XML文件、JNDI资源、来自JDBC Datasource数据的访问。 -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <!-- kryo是一个高性能的序列化/反序列化工具，由于其变长存储特性并使用了字节码生成机制，
+            拥有较高的运行速度和较小的体积。 -->
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <!-- shiro spring.权限 -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <!-- shiro ehcache -->
+
+        <!-- 数据源 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+
+        <!-- lombok，常用get set -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.45</version>
+        </dependency>
+
+        <!-- zookeeper -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>RELEASE</version>
+            <!--排除这个slf4j-log4j12,与spring logback jar冲突-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- dubbo -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <!-- http连接池 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <!-- dozer begin: copy bean/拷贝实体-->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+        <!-- dozer end-->
+
+        <!-- 处理时间与日期 -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda.time.version}</version>
+        </dependency>
+
+        <!-- redis客户端 -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+
+        <!-- 定时任务 -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+
+        <!-- json实体转换 -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.collections</groupId>
+            <artifactId>google-collections</artifactId>
+            <version>1.0-rc2</version>
+        </dependency>
+
+
+        <!-- 工具 -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-lang3</artifactId>-->
+            <!--<version>3.1</version>-->
+        <!--</dependency>-->
+    </dependencies>
+
+    <!-- 阿里云maven仓库 -->
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>repo</name>
+            <url>http://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>repo</name>
+            <url>http://repo1.maven.org/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

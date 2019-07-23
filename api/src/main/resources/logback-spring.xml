@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/><!-- 这个必须要 -->
+    <!-- 文件输出格式 -->
+    <property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n"/>
+    <!-- test文件路径 -->
+    <!--<property name="TEST_FILE_PATH" value="D:/logs/dubbo"/>-->
+    <property name="TEST_FILE_PATH" value="./logs"/>
+    <!-- prod文件路径 -->
+    <property name="PRO_FILE_PATH" value="/vrv/logs/dubbo"/>
+
+    <!-- 开发环境 -->
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name="com.example" level="DEBUG"/>
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+
+    <!-- 测试环境 将 com.jonlin 包下的 debug 日志记录到文件 -->
+    <springProfile name="test">
+        <!-- 每天产生一个文件 -->
+        <appender name="debug-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 文件路径 -->
+            <!--<file>${TEST_FILE_PATH}/mybatis.%d{yyyy-MM-dd}.log</file>-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- 文件名称 -->
+                <fileNamePattern>${TEST_FILE_PATH}/debug/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <!-- 文件最大保存历史数量 -->
+                <MaxHistory>100</MaxHistory>
+            </rollingPolicy>
+            <!-- 此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <!-- 过滤的级别 -->
+                <level>debug</level>
+                <!-- 匹配时的操作：接收（记录） -->
+                <onMatch>ACCEPT</onMatch>
+                <!-- 不匹配时的操作：拒绝（不记录） -->
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <!-- 每天产生一个文件（error） -->
+        <appender name="test-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 文件路径 -->
+            <!--<file>${TEST_FILE_PATH}/info.%d{yyyy-MM-dd}.log</file>-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- 文件名称 -->
+                <fileNamePattern>${TEST_FILE_PATH}/error/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <!-- 文件最大保存历史数量 -->
+                <MaxHistory>100</MaxHistory><!-- 日志存放周期（天） -->
+            </rollingPolicy>
+            <!-- 此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <!-- 过滤的级别 -->
+                <level>ERROR</level>
+                <!-- 匹配时的操作：接收（记录） -->
+                <onMatch>ACCEPT</onMatch>
+                <!-- 不匹配时的操作：拒绝（不记录） -->
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <!-- 每天产生一个文件（error） -->
+        <appender name="test-info-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 文件路径 -->
+            <!--<file>${TEST_FILE_PATH}/info.%d{yyyy-MM-dd}.log</file>-->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- 文件名称 -->
+                <fileNamePattern>${TEST_FILE_PATH}/info/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <!-- 文件最大保存历史数量 -->
+                <MaxHistory>100</MaxHistory><!-- 日志存放周期（天） -->
+            </rollingPolicy>
+            <!-- 此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <!-- 过滤的级别 -->
+                <level>INFO</level>
+                <!-- 匹配时的操作：接收（记录） -->
+                <onMatch>ACCEPT</onMatch>
+                <!-- 不匹配时的操作：拒绝（不记录） -->
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+
+        <appender name="test-console" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${PATTERN}</pattern>
+            </encoder>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>DEBUG</level>
+            </filter>
+        </appender>
+
+        <root level="info">
+            <appender-ref ref="test-info-file"/>
+            <appender-ref ref="test-error"/>
+            <!--<appender-ref ref="debug-file" />-->
+        </root>
+
+        <!-- logger能指定包，additivity="true"，root也能执行，debug只写入com.jonlin包下的，
+            并且允许其它方式操作debug，例如控制台何能输出debug -->
+        <logger name="com.jonlin" level="DEBUG" additivity="true">
+            <appender-ref ref="debug-file" />
+        </logger>
+
+    </springProfile>
+
+
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <appender name="PROD_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${PRO_FILE_PATH}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${PRO_FILE_PATH}/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <MaxHistory>100</MaxHistory>
+            </rollingPolicy>
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </appender>
+        <root level="warn">
+            <appender-ref ref="PROD_FILE"/>
+        </root>
+    </springProfile>
+</configuration>
