@@ -2,11 +2,13 @@ package com.jonlin.api.controller;
 
 import com.jonlin.common.BaseException;
 import com.jonlin.common.ResultResponse;
+import com.jonlin.common.utils.RedisUtils;
 import com.jonlin.entity.UploadFile;
 import com.jonlin.entity.User;
 import com.jonlin.mapper.UserMapper;
 import com.jonlin.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,9 @@ public class TestController {
     @Resource
     UserMapper userMapper;
 
+    @Resource
+    RedisUtils redisUtils;
+
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public ResultResponse test(User user) throws Exception {
         ArrayList<User> list = testService.test(user);
@@ -49,6 +54,19 @@ public class TestController {
         HashMap<String,String> map = testService.uploadFile(uploadFile);
         return ResultResponse.ok(map);
     }
+
+    /**
+     * 文件上传
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/testRedis",method = RequestMethod.POST)
+    public ResultResponse testRedis() {
+        redisUtils.set("test","test-2019-07-24");
+        String test = redisUtils.get("test");
+        return ResultResponse.ok(test);
+    }
+
 
     @RequestMapping(value = "/test1")
     public Object test1() throws Exception {

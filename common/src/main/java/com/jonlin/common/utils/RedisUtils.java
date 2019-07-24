@@ -58,8 +58,14 @@ public class RedisUtils {
 //    public final static long APP_EXPIRE = 30;
 
     @Value("${redis-key-prefix}")
-    String redisKeyPrefix;
+    String redisKeyPrefix; // redis前缀，格式含义更清晰
 
+    /**
+     * 设值及其过期时间
+     * @param key
+     * @param value
+     * @param expire
+     */
     public void set(String key, Object value, long expire){//key=orderNo,value=1
         key = addPrefix(key);
         valueOperations.set(key, toJson(value));
@@ -72,7 +78,14 @@ public class RedisUtils {
         set(key, value, DEFAULT_EXPIRE);
     }
 
-
+    /**
+     * 取对象并刷新过期时间
+     * @param key
+     * @param clazz
+     * @param expire
+     * @param <T>
+     * @return
+     */
     public <T> T get(String key, Class<T> clazz, long expire) {
         key = addPrefix(key);
         String value = valueOperations.get(key);
@@ -82,10 +95,23 @@ public class RedisUtils {
         return value == null ? null : fromJson(value, clazz);
     }
 
+    /**
+     * 仅取对象
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public <T> T get(String key, Class<T> clazz) {
         return get(key, clazz, NOT_EXPIRE);
     }
 
+    /**
+     * 取值并设置过期时间
+     * @param key
+     * @param expire
+     * @return
+     */
     public String get(String key, long expire) {//orderNo ,-1,
         key = addPrefix(key);
         String value = valueOperations.get(key);
@@ -95,6 +121,11 @@ public class RedisUtils {
         return value;
     }
 
+    /**
+     * 仅取值
+     * @param key
+     * @return
+     */
     public String get(String key) {
         return get(key, NOT_EXPIRE);
     }
